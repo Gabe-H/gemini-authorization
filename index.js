@@ -1,22 +1,10 @@
 const express = require("express")
-const SpotifyWebApi = require("spotify-web-api-node")
-var app = express()
 const path = require('path')
+const PORT = process.env.PORT || 5000
 
-var spotifyApi = new SpotifyWebApi({
-    clientId: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    redirectUri: 'http://localhost:8080/callback'
-})
-app.listen(8080)
-app.set('view engine', 'ejs')
-app.get('/', (req, res) => {
-    res.render('home')
-})
-app.get('/auth', (req, res) => {
-    var myUrl = spotifyApi.createAuthorizeURL(['user-read-email'], '', true)
-    res.redirect(myUrl)
-})
-app.get('/callback', (req, res) => {
-    res.send(req.query)
-})
+express()
+    .use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => res.render('home'))
+    .listen(PORT, () => console.log(`listening on ${ PORT }`))
