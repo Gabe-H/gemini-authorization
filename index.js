@@ -2,6 +2,8 @@ const express = require("express")
 const path = require('path')
 const SpotifyWebApi = require("spotify-web-api-node")
 require("dotenv").config()
+var fetch = require('node-fetch')
+const { urlencoded } = require("express")
 const PORT = process.env.PORT || 5000
 
 var client_id = process.env.CLIENT_ID
@@ -22,5 +24,31 @@ express()
     .get('/auth', (req, res) => {
         var url = spotifyApi.createAuthorizeURL(["user-modify-playback-state", "user-read-playback-state"], '', true)
         res.redirect(url)
+    })
+    .get('/request_token', (req, res) => {
+        var code = req.query.code
+        spotifyApi.authorizationCodeGrant(code).then(
+            function(data) {
+                console.log(data)
+                res.send(data)
+            },
+            function(err) {
+                res.send(err)
+            }
+        )
+    })
+    .get('/refresh', (req, res) => {
+        var myRefresh = req.query.refresh_token
+        var b64creds = 
+              'Basic ' +
+              Buffer.from(
+                client_id + ':' + client_secret
+              ).toString('base64')
+
+        console.log(b64creds)
+        fetch('https://accounts.spotify.com/api/token/?grant_type=refresh_token&refresh_token=' + myRefresh, { method: 'POST', headers: {'Authorization': b64creds, 'Content-Type': 'application/x-www-form-urlencoded'}})
+        .then(res => res.json())
+        .then(json => console.log(json))
+        res.send()
     })
     .listen(PORT, () => console.log(`listening on ${ PORT }`))
