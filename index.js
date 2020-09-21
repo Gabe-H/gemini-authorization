@@ -3,7 +3,6 @@ const path = require('path')
 const SpotifyWebApi = require("spotify-web-api-node")
 require("dotenv").config()
 var fetch = require('node-fetch')
-const { urlencoded } = require("express")
 const PORT = process.env.PORT || 5000
 
 var client_id = process.env.CLIENT_ID
