@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
     "express": "^4.17.1",
     "install": "^0.13.0",
+    "jquery": "^3.5.1",
     "path": "^0.12.7",
     "spotify-web-api-node": "^4.0.0"
   }
