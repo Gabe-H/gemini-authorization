@@ -1,0 +1,15 @@
+{
+  "name": "gemini-authorization",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Gabe-H/gemini-authorization.git",
+  "author": "Gabe-H <gabe.haarberg@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "spotify-web-api-node": "^4.0.0"
+  }
+}
