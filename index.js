@@ -14,12 +14,29 @@ var spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:8080/callback'
 })
 
+var winLink
+var macLink
+var linuxLink
+
+fetch('https://api.github.com/repos/gabe-h/gemini/releases/latest')
+    .then(res => res.json())
+    .then(json => {
+        for(i=0;i<json.assets.length;i++) {
+            if(json.assets[i].browser_download_url.endsWith('exe')) {
+                winLink = json.assets[i].browser_download_url
+            } else if (json.assets[i].browser_download_url.endsWith('dmg')) {
+                macLink = json.assets[i].browser_download_url
+            } else if (json.assets[i].browser_download_url.endsWith('AppImage')) {
+                linuxLink = json.assets[i].browser_download_url
+            }
+        }
+    })
 
 express()
     .use(express.static(path.join(__dirname, 'public')))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
-    .get('/', (req, res) => res.render('home'))
+    .get('/', (req, res) => res.render('home', {linuxLink: linuxLink, winLink: winLink, macLink: macLink}))
     .get('/auth', (req, res) => {
         var url = spotifyApi.createAuthorizeURL(["user-modify-playback-state", "user-read-playback-state"], '')
         res.redirect(url)

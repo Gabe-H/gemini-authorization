@@ -5,15 +5,3 @@ header {
 h1 {
     font-size: 70px;
 }
-
-#windowsDownload {
-    color: mediumblue;
-}
-
-#macDownload {
-    color: grey;
-}
-
-#linuxDownload {
-    color: grey;
-}
